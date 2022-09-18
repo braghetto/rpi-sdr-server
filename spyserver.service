@@ -12,9 +12,7 @@ IOSchedulingClass=realtime
 IOSchedulingPriority=1
 
 ExecStartPre=/bin/sleep 5
-ExecStart=/home/arthur/spyserver/spyserver /home/arthur/spyserver/spyserver.config
-
-WorkingDirectory=/home/arthur/
+ExecStart=/usr/local/bin/spyserver /etc/spyserver.config
 
 StandardOutput=inherit
 StandardError=inherit

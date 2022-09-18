@@ -30,7 +30,7 @@ PPB="${PPM//.}"
 echo -e "${green}PPM: $PPM${clear}"
 echo -e "${green}PPB: $PPB${clear}"
 
-/usr/bin/sed -i -e "/frequency_correction_ppb =/ s/= .*/= $PPB/" /home/arthur/spyserver/spyserver.config
+/usr/bin/sed -i -e "/frequency_correction_ppb =/ s/= .*/= $PPB/" /etc/spyserver.config
 
 sudo systemctl start spyserver.service
 

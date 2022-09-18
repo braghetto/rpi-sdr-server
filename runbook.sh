@@ -53,6 +53,51 @@ make
 sudo make install
 cd ~
 
+# build rtl_433
+git clone https://github.com/merbanan/rtl_433.git
+cd rtl_433
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+cd ~
+
+# move src dirs
+sudo mv kalibrate-rtl/ /usr/local/src
+sudo mv rtl-sdr/ /usr/local/src
+sudo mv rtl_433/ /usr/local/src
+sudo mv SDRPlusPlus/ /usr/local/src
+sudo mv spyserver/ /usr/local/src
+sudo cp /usr/local/src/spyserver/spyserver /usr/local/bin/spyserver
+sudo chown -R root:root /usr/local/src/*
+
+# clone git repo
+git clone https://github.com/braghetto/rpi-sdr-server.git
+cd rpi-sdr-server/
+
+# modproble blacklist
+sudo rm /etc/modprobe.d/blacklist-rtl8xxxu.conf
+sudo cp blacklist-rtlsdr.conf /etc/modprobe.d/
+
+# install scripts
+sudo mkdir /usr/local/src/scripts
+sudo cp calibrate.sh /usr/local/src/scripts
+sudo ln -s /usr/local/src/scripts/calibrate.sh /usr/local/bin/calibrate
+
+# etc config files
+sudo cp spyserver.config /etc
+sudo cp rtl_433.conf /etc
+
+# systemd services
+sudo cp spyserver.service /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl enable spyserver.service
+
+# remove repo
+cd ~
+rm -rf rpi-sdr-server/
+
 # disable services
 sudo systemctl stop triggerhappy.service 
 sudo systemctl stop triggerhappy.socket 
@@ -87,7 +132,7 @@ echo "echo performance > /sys/devices/system/cpu/cpu3/cpufreq/scaling_governor" 
 echo |sudo tee -a /etc/rc.local
 echo "exit 0" |sudo tee -a /etc/rc.local
 
-# avoid writing often to sdcard
+# avoid writing to sdcard
 sudo sed -i 's/vfat    defaults/vfat    defaults,noatime/g' /etc/fstab
 sudo sed -i 's/defaults,noatime/defaults,noatime,commit=1800/g' /etc/fstab
 echo "tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
