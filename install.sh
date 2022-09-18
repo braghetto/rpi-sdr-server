@@ -145,5 +145,9 @@ echo "tmpfs /var/lib/upsd tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,s
 sudo sed -i 's/CONF_SWAPSIZE=100/CONF_SWAPSIZE=0/g' /etc/dphys-swapfile
 sudo swapoff -a
 
-#
+# done
+green='\033[0;32m'
+clear='\033[0m'
+echo -e "${green}INSTALLATION COMPLETE${clear}"
+echo -e "${green}Restart the system!${clear}"
 
