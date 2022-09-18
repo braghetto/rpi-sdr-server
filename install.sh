@@ -89,6 +89,10 @@ sudo cp rtl_433.conf /etc
 mkdir ~/.config/
 mkdir ~/.config/rtl_433/
 ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
+mkdir ~/.config/sdrpp/
+cp sdrpp_rtl_tcp_config.json ~/.config/sdrpp/rtl_tcp_config.json
+cp sdrpp_spyserver_config.json ~/.config/sdrpp/spyserver_config.json
+cp sdrpp_server_source_config.json ~/.config/sdrpp/sdrpp_server_source_config.json
 
 # systemd services
 sudo cp spyserver.service /etc/systemd/system
