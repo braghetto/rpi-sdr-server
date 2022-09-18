@@ -30,7 +30,7 @@ sudo systemctl stop sdrpp.service
 PPM=$(/usr/local/bin/kal -g $GAIN -b $BAND -c $CHAN -e $IERR |grep "average absolute error:" |awk '{print $4}')
 PPMI=$(echo $PPM |awk '{print int($1+0.5)}')
 PPB="${PPM//.}"
-echo -e "${green}PPMi: $PPM${clear}"
+echo -e "${green}PPMi: $PPMI${clear}"
 echo -e "${green}PPM: $PPM${clear}"
 echo -e "${green}PPB: $PPB${clear}"
 
