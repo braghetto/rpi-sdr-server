@@ -123,11 +123,11 @@ sudo sed -i 's/$/ dwc_otg.fiq_fix_enable=0/' /boot/cmdline.txt
 
 # boot config
 echo "gpu_mem=16" |sudo tee -a /boot/config.txt
-echo "force_turbo=1" |sudo tee -a /boot/config.txt
-echo "arm_freq=900" |sudo tee -a /boot/config.txt
-echo "core_freq=500" |sudo tee -a /boot/config.txt
-echo "disable_splash=1" |sudo tee -a /boot/config.txt
-echo "boot_delay=1" |sudo tee -a /boot/config.txt
+echo "#force_turbo=1" |sudo tee -a /boot/config.txt
+echo "#arm_freq=900" |sudo tee -a /boot/config.txt
+echo "#core_freq=500" |sudo tee -a /boot/config.txt
+echo "#disable_splash=1" |sudo tee -a /boot/config.txt
+echo "#boot_delay=1" |sudo tee -a /boot/config.txt
 
 # cpu governor
 sudo sed -i '/^exit 0/d' /etc/rc.local
