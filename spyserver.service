@@ -1,0 +1,29 @@
+[Unit]
+
+Description=Spy Server
+
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+
+Nice=-2
+IOSchedulingClass=realtime
+IOSchedulingPriority=1
+
+ExecStartPre=/bin/sleep 5
+ExecStart=/home/arthur/spyserver/spyserver /home/arthur/spyserver/spyserver.config
+
+WorkingDirectory=/home/arthur/
+
+StandardOutput=inherit
+StandardError=inherit
+
+Restart=always
+
+User=arthur
+
+[Install]
+
+WantedBy=multi-user.target
+
