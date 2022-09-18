@@ -72,8 +72,6 @@ sudo mv spyserver/ /usr/local/src
 sudo cp /usr/local/src/spyserver/spyserver /usr/local/bin/spyserver
 sudo chown -R root:root /usr/local/src/*
 
-# clone git repo
-git clone https://github.com/braghetto/rpi-sdr-server.git
 cd rpi-sdr-server/
 
 # modproble blacklist
@@ -97,7 +95,7 @@ sudo cp rtltcp.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable spyserver.service
 
-# remove repo
+# remove git repo
 cd ~
 rm -rf rpi-sdr-server/
 
