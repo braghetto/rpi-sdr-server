@@ -25,6 +25,7 @@ esac
 
 sudo systemctl stop spyserver.service
 sudo systemctl stop rtltcp.service
+sudo systemctl stop sdrpp.service
 
 PPM=$(/usr/local/bin/kal -g $GAIN -b $BAND -c $CHAN -e $IERR |grep "average absolute error:" |awk '{print $4}')
 PPMI=$(echo $PPM |awk '{print int($1+0.5)}')
@@ -46,6 +47,11 @@ fi
 if [ "$(sudo systemctl is-enabled rtltcp.service)" = "enabled" ]
 then
 sudo systemctl start rtltcp.service
+fi
+
+if [ "$(sudo systemctl is-enabled sdrpp.service)" = "enabled" ]
+then
+sudo systemctl start sdrpp.service
 fi
 
 exit 0

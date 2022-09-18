@@ -43,21 +43,21 @@ tar xvzf spyserver-arm64.tgz
 rm spyserver-arm64.tgz
 cd ~
 
-# build sdrpp
-git clone https://github.com/AlexandreRouma/SDRPlusPlus.git
-cd SDRPlusPlus/
-mkdir build
-cd build/
-cmake ..
-make
-sudo make install
-cd ~
-
 # build rtl_433
 git clone https://github.com/merbanan/rtl_433.git
 cd rtl_433
 mkdir build
 cd build
+cmake ..
+make
+sudo make install
+cd ~
+
+# build sdrpp
+git clone https://github.com/AlexandreRouma/SDRPlusPlus.git
+cd SDRPlusPlus/
+mkdir build
+cd build/
 cmake ..
 make
 sudo make install
@@ -92,6 +92,7 @@ ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
 # systemd services
 sudo cp spyserver.service /etc/systemd/system
 sudo cp rtltcp.service /etc/systemd/system
+sudo cp sdrpp.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable spyserver.service
 
