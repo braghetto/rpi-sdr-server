@@ -88,9 +88,12 @@ sudo ln -s /usr/local/src/scripts/calibrate.sh /usr/local/bin/calibrate
 # etc config files
 sudo cp spyserver.config /etc
 sudo cp rtl_433.conf /etc
+mkdir ~/.config/rtl_433/
+ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
 
 # systemd services
 sudo cp spyserver.service /etc/systemd/system
+sudo cp rtltcp.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable spyserver.service
 
