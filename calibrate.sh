@@ -7,7 +7,7 @@ SERIAL=$(lsusb -d 0bda: -v |grep iSerial |awk '{print $3}')
 green='\033[0;32m'
 clear='\033[0m'
 
-# initial error and best channel to run kal
+# initial error and best channel to run kal - specific to my devices
 case $SERIAL in
 	00000001)
 		IERR=74

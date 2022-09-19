@@ -74,11 +74,11 @@ sudo chown -R root:root /usr/local/src/*
 
 cd rpi-sdr-server/
 
-# modproble blacklist
+# modprobe blacklist
 sudo rm /etc/modprobe.d/blacklist-rtl8xxxu.conf
 sudo cp blacklist-rtlsdr.conf /etc/modprobe.d/
 
-# install scripts
+# scripts
 sudo mkdir /usr/local/src/scripts
 sudo cp calibrate.sh /usr/local/src/scripts
 sudo ln -s /usr/local/src/scripts/calibrate.sh /usr/local/bin/calibrate
