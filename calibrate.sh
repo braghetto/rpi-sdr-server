@@ -41,9 +41,9 @@ echo -e "${green}PPM: $PPM${clear}"
 echo -e "${green}PPB: $PPB${clear}"
 
 # set ppm/ppb in configs
-/usr/bin/sed -i -e "/frequency_correction_ppb =/ s/= .*/= $PPB/" /etc/spyserver.config
-/usr/bin/sed -i -e "s/-P [0-9]\+/-P $PPMI/" /etc/systemd/system/rtltcp.service
-/usr/bin/sed -i -e "s/\"ppm\": [0-9]\+,/\"ppm\": $PPMI,/" ~/.config/sdrpp/rtl_tcp_config.json
+sudo /usr/bin/sed -i -e "/frequency_correction_ppb =/ s/= .*/= $PPB/" /etc/spyserver.config
+sudo /usr/bin/sed -i -e "s/-P [0-9]\+/-P $PPMI/" /etc/systemd/system/rtltcp.service
+sudo /usr/bin/sed -i -e "s/\"ppm\": [0-9]\+,/\"ppm\": $PPMI,/" ~/.config/sdrpp/rtl_tcp_config.json
 
 # start sdr services again
 sudo systemctl daemon-reload
