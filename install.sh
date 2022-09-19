@@ -152,7 +152,6 @@ echo |sudo tee -a /etc/rc.local
 echo "exit 0" |sudo tee -a /etc/rc.local
 
 # avoid writing to sdcard
-#sudo sed -i 's/defaults,noatime/defaults,noatime,commit=1800/g' /etc/fstab
 echo "tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
 echo "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
 echo "tmpfs /var/log tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
