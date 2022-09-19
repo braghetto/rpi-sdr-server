@@ -33,19 +33,21 @@ Do not use until you understand the installation script and make the necessary c
 
 ## Use
 
-## Software included
+### Software included
 * spyserver
 * sdrpp server
+* soapyremote server
 * rtl_tcp
 * calibration tool
 * rtl_433 tool
 
-## Services avaliable
+### Services avaliable
 * spyserver.service
+* soapyserver.service
 * rtltcp.service
 * sdrpp.service
 
-## Configuration files
+### Configuration files
 * spyserver
 `/etc/spyserver.config`
 * rtl_433
@@ -53,7 +55,7 @@ Do not use until you understand the installation script and make the necessary c
 * sdrpp server
 `~/.config/sdrpp/`
 
-## Instructions
+### Instructions
 * By default the spyserver is the service enabled by installation script.
 * Do not run or enable multiple sdr services at same time.
 * Use systemctl to start/stop or enable/disable sdr services.
