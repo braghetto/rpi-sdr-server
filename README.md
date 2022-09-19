@@ -28,7 +28,8 @@ Do not use until you understand the installation script and make the necessary c
 * run
 `cd rpi-sdr-server/`
 `./install.sh`
-
+* Grab a beer and wait, we'll be compiling a lot of stuff using rpi hardware...
+* Reboot
 
 ## Use
 
