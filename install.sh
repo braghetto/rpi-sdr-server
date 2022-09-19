@@ -116,18 +116,23 @@ sudo systemctl stop bluetooth.service
 sudo systemctl disable bluetooth.service
 sudo systemctl stop hciuart.service 
 sudo systemctl disable hciuart.service
+sudo systemctl stop ModemManager.service
+sudo systemctl disable ModemManager.service
 
 # fix cmdline
 sudo sed -i 's/console=serial0,115200 //g' /boot/cmdline.txt
 sudo sed -i 's/$/ dwc_otg.fiq_fix_enable=0/' /boot/cmdline.txt
 
 # boot config
+sudo sed -i 's/\[all\]//g' /boot/config.txt
+echo "[all]" |sudo tee -a /boot/config.txt
 echo "gpu_mem=16" |sudo tee -a /boot/config.txt
-echo "#force_turbo=1" |sudo tee -a /boot/config.txt
+echo "force_turbo=1" |sudo tee -a /boot/config.txt
 echo "#arm_freq=900" |sudo tee -a /boot/config.txt
 echo "#core_freq=500" |sudo tee -a /boot/config.txt
-echo "#disable_splash=1" |sudo tee -a /boot/config.txt
-echo "#boot_delay=1" |sudo tee -a /boot/config.txt
+echo "disable_splash=1" |sudo tee -a /boot/config.txt
+echo "boot_delay=1" |sudo tee -a /boot/config.txt
+echo "dtoverlay=pi3-disable-bt" |sudo tee -a /boot/config.txt
 
 # cpu governor
 sudo sed -i '/^exit 0/d' /etc/rc.local

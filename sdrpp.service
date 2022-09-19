@@ -7,9 +7,9 @@ After=network-online.target
 
 [Service]
 
-Nice=-2
-IOSchedulingClass=realtime
-IOSchedulingPriority=1
+Nice=-1
+IOSchedulingClass=best-effort
+IOSchedulingPriority=0
 
 ExecStartPre=/bin/sleep 5
 ExecStart=/usr/bin/sdrpp --server --port 5555
