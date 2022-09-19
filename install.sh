@@ -10,7 +10,13 @@ sudo apt -y full-upgrade
 sudo apt -y install git cmake build-essential libtool automake autoconf \
 libvolk2-dev libzstd-dev libglfw3-dev libusb-dev libusb-1.0-0-dev libsoapysdr-dev \
 libairspy-dev libairspyhf-dev libiio-dev libad9361-dev librtaudio-dev libhackrf-dev \
-libfftw3-dev soapysdr-module-all soapysdr-tools
+libfftw3-dev soapysdr-module-all soapysdr-tools soapyremote-server
+
+# remove soapyremote systemd unit
+sudo systemctl stop soapyremote-server.service
+sudo systemctl disable soapyremote-server.service
+sudo rm /etc/systemd/system/SoapySDRServer.service
+sudo rm /lib/systemd/system/soapyremote-server.service
 
 # go home
 cd ~
@@ -98,6 +104,7 @@ cp sdrpp_server_source_config.json ~/.config/sdrpp/sdrpp_server_source_config.js
 sudo cp spyserver.service /etc/systemd/system
 sudo cp rtltcp.service /etc/systemd/system
 sudo cp sdrpp.service /etc/systemd/system
+sudo cp soapyserver.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable spyserver.service
 

@@ -28,6 +28,7 @@ esac
 sudo systemctl stop spyserver.service
 sudo systemctl stop rtltcp.service
 sudo systemctl stop sdrpp.service
+sudo systemctl stop soapyserver.service
 
 # float ppm value
 PPM=$(/usr/local/bin/kal -g $GAIN -b $BAND -c $CHAN -e $IERR |grep "average absolute error:" |awk '{print $4}')
@@ -62,6 +63,11 @@ fi
 if [ "$(sudo systemctl is-enabled sdrpp.service)" = "enabled" ]
 then
 sudo systemctl start sdrpp.service
+fi
+
+if [ "$(sudo systemctl is-enabled soapyserver.service)" = "enabled" ]
+then
+sudo systemctl start soapyserver.service
 fi
 
 # done

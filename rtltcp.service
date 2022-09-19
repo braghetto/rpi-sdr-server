@@ -8,8 +8,8 @@ After=network-online.target
 [Service]
 
 Nice=-1
-IOSchedulingClass=best-effort
-IOSchedulingPriority=0
+#IOSchedulingClass=best-effort
+#IOSchedulingPriority=0
 
 ExecStartPre=/bin/sleep 5
 ExecStart=/usr/local/bin/rtl_tcp -p 5555 -g 29 -s 2560000 -P 0
