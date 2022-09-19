@@ -36,7 +36,7 @@ PPMI=$(echo $PPM |awk '{print int($1+0.5)}')
 # multiply to ppb
 PPB="${PPM//.}"
 # print
-echo -e "${green}PPMi: $PPMI${clear}"
+echo -e "${green}PPM rounded: $PPMI${clear}"
 echo -e "${green}PPM: $PPM${clear}"
 echo -e "${green}PPB: $PPB${clear}"
 
