@@ -27,6 +27,7 @@ esac
 # stop sdr services
 sudo systemctl stop spyserver.service
 sudo systemctl stop rtltcp.service
+sudo systemctl stop rtlairband.service
 sudo systemctl stop sdrpp.service
 sudo systemctl stop soapyserver.service
 
@@ -46,6 +47,7 @@ sudo /usr/bin/sed -i -e "/frequency_correction_ppb =/ s/= .*/= $PPB/" /etc/spyse
 sudo /usr/bin/sed -i -e "s/-P [0-9]\+/-P $PPMI/" /etc/systemd/system/rtltcp.service
 sudo /usr/bin/sed -i -e "s/\"ppm\": [0-9]\+,/\"ppm\": $PPMI,/" ~/.config/sdrpp/rtl_tcp_config.json
 sudo /usr/bin/sed -i -e "s/ppm_error     [0-9]\+/ppm_error     $PPMI/" /etc/rtl_433.conf
+sudo /usr/bin/sed -i -e "s/correction = [0-9]\+;/correction = $PPMI;/" /etc/rtl_airband.conf
 
 # start sdr services again
 sudo systemctl daemon-reload
@@ -60,6 +62,11 @@ then
 sudo systemctl start rtltcp.service
 fi
 
+if [ "$(sudo systemctl is-enabled rtlairband.service)" = "enabled" ]
+then
+sudo systemctl start rtlairband.service
+fi
+
 if [ "$(sudo systemctl is-enabled sdrpp.service)" = "enabled" ]
 then
 sudo systemctl start sdrpp.service
@@ -72,4 +79,3 @@ fi
 
 # done
 exit 0
-

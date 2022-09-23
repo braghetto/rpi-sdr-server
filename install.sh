@@ -10,7 +10,8 @@ sudo apt -y full-upgrade
 sudo apt -y install git cmake build-essential libtool automake autoconf \
 libvolk2-dev libzstd-dev libglfw3-dev libusb-dev libusb-1.0-0-dev libsoapysdr-dev \
 libairspy-dev libairspyhf-dev libiio-dev libad9361-dev librtaudio-dev libhackrf-dev \
-libfftw3-dev soapysdr-module-all soapysdr-tools soapyremote-server
+libfftw3-dev soapysdr-module-all soapysdr-tools soapyremote-server pkg-config \
+libmp3lame-dev libshout3-dev libconfig++-dev libraspberrypi-dev libpulse-dev
 
 # remove soapyremote systemd unit
 sudo systemctl stop soapyremote-server.service
@@ -59,6 +60,18 @@ make
 sudo make install
 cd ~
 
+# build rtl_airband
+wget -O RTLSDR-Airband.tar.gz https://github.com/szpajder/RTLSDR-Airband/archive/refs/tags/v4.0.2.tar.gz
+tar xvzf RTLSDR-Airband.tar.gz
+cd RTLSDR-Airband-4.0.2/
+mkdir build
+cd build
+cmake -DPLATFORM=native -DNFM=ON -DPULSEAUDIO=ON -DRTLSDR=ON ../
+make
+sudo make install
+cd ~
+rm -rf RTLSDR-Airband.tar.gz
+
 # build sdrpp
 git clone https://github.com/AlexandreRouma/SDRPlusPlus.git
 cd SDRPlusPlus/
@@ -75,6 +88,7 @@ sudo mv rtl-sdr/ /usr/local/src
 sudo mv rtl_433/ /usr/local/src
 sudo mv SDRPlusPlus/ /usr/local/src
 sudo mv spyserver/ /usr/local/src
+sudo mv RTLSDR-Airband-4.0.2/ /usr/local/src
 sudo cp /usr/local/src/spyserver/spyserver /usr/local/bin/spyserver
 sudo chown -R root:root /usr/local/src/*
 
@@ -92,6 +106,9 @@ sudo ln -s /usr/local/src/scripts/calibrate.sh /usr/local/bin/calibrate
 # etc config files
 sudo cp spyserver.config /etc
 sudo cp rtl_433.conf /etc
+sudo cp rtl_airband.conf /etc
+sudo ln -s /etc/rtl_airband.conf /usr/local/etc/rtl_airband.conf
+mkdir ~/recordings/
 mkdir ~/.config/
 mkdir ~/.config/rtl_433/
 ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
@@ -103,6 +120,7 @@ cp sdrpp_server_source_config.json ~/.config/sdrpp/sdrpp_server_source_config.js
 # systemd services
 sudo cp spyserver.service /etc/systemd/system
 sudo cp rtltcp.service /etc/systemd/system
+sudo cp rtlairband.service /etc/systemd/system
 sudo cp sdrpp.service /etc/systemd/system
 sudo cp soapyserver.service /etc/systemd/system
 sudo systemctl daemon-reload

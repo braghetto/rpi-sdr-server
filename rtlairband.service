@@ -1,6 +1,6 @@
 [Unit]
 
-Description=Rtl Tcp Server
+Description=Rtl Airband Server
 
 Wants=network-online.target
 After=network-online.target
@@ -12,7 +12,7 @@ Nice=-1
 #IOSchedulingPriority=0
 
 ExecStartPre=/bin/sleep 5
-ExecStart=/usr/local/bin/rtl_tcp -p 5555 -g 29 -s 2560000 -P 0
+ExecStart=/usr/local/bin/rtl_airband -F -c /etc/rtl_airband.conf
 
 StandardOutput=inherit
 StandardError=inherit
@@ -24,4 +24,3 @@ User=arthur
 [Install]
 
 WantedBy=multi-user.target
-
