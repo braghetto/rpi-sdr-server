@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 
 
-
 # initial system update
 sudo apt -y update
 sudo apt -y full-upgrade
@@ -11,7 +10,8 @@ sudo apt -y install git cmake build-essential libtool automake autoconf \
 libvolk2-dev libzstd-dev libglfw3-dev libusb-dev libusb-1.0-0-dev libsoapysdr-dev \
 libairspy-dev libairspyhf-dev libiio-dev libad9361-dev librtaudio-dev libhackrf-dev \
 libfftw3-dev soapysdr-module-all soapysdr-tools soapyremote-server pkg-config \
-libmp3lame-dev libshout3-dev libconfig++-dev libraspberrypi-dev libpulse-dev
+libmp3lame-dev libshout3-dev libconfig++-dev libraspberrypi-dev libpulse-dev \
+python3-venv python3-pip
 
 # remove soapyremote systemd unit
 sudo systemctl stop soapyremote-server.service
@@ -72,6 +72,11 @@ sudo make install
 cd ~
 rm -rf RTLSDR-Airband.tar.gz
 
+# build telegram bot
+sudo pip install -r rpi-sdr-server/telegrambot/requirements.txt
+sudo mv rpi-sdr-server/telegrambot/ /usr/local/src
+sudo chown root:root -R /usr/local/src/telegrambot
+
 # build sdrpp
 git clone https://github.com/AlexandreRouma/SDRPlusPlus.git
 cd SDRPlusPlus/
@@ -94,6 +99,13 @@ sudo chown -R root:root /usr/local/src/*
 
 cd rpi-sdr-server/
 
+# fix system user
+/usr/bin/sed -i -e "s/arthur/$USER/" rtlairband.service
+/usr/bin/sed -i -e "s/arthur/$USER/" rtltcp.service
+/usr/bin/sed -i -e "s/arthur/$USER/" sdrpp.service
+/usr/bin/sed -i -e "s/arthur/$USER/" spyserver.service
+/usr/bin/sed -i -e "s/arthur/$USER/" telegrambot.service
+
 # modprobe blacklist
 sudo rm /etc/modprobe.d/blacklist-rtl8xxxu.conf
 sudo cp blacklist-rtlsdr.conf /etc/modprobe.d/
@@ -109,7 +121,7 @@ sudo cp rtl_433.conf /etc
 sudo cp rtl_airband.conf /etc
 sudo ln -s /etc/rtl_airband.conf /usr/local/etc/rtl_airband.conf
 sudo mkdir /tmp/recordings/
-sudo chown arthur:arthur /tmp/recordings/
+sudo chown $USER:$USER /tmp/recordings/
 mkdir ~/.config/
 mkdir ~/.config/rtl_433/
 ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
@@ -124,6 +136,7 @@ sudo cp rtltcp.service /etc/systemd/system
 sudo cp rtlairband.service /etc/systemd/system
 sudo cp sdrpp.service /etc/systemd/system
 sudo cp soapyserver.service /etc/systemd/system
+sudo cp telegrambot.service /etc/systemd/system
 sudo systemctl daemon-reload
 sudo systemctl enable spyserver.service
 
@@ -183,4 +196,3 @@ green='\033[0;32m'
 clear='\033[0m'
 echo -e "${green}INSTALLATION COMPLETE${clear}"
 echo -e "${green}Restart the system!${clear}"
-

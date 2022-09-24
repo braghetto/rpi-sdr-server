@@ -37,6 +37,7 @@ Do not use until you understand the installation script and make the necessary c
 * spyserver
 * sdrpp server
 * soapyremote server
+* telegram bot (send airband audios)
 * rtl_airband
 * rtl_tcp
 * calibration tool
@@ -45,6 +46,7 @@ Do not use until you understand the installation script and make the necessary c
 ### Services avaliable
 * spyserver.service
 * soapyserver.service
+* telegrambot.service
 * rtlairband.service
 * rtltcp.service
 * sdrpp.service
@@ -58,11 +60,13 @@ Do not use until you understand the installation script and make the necessary c
 `~/.config/sdrpp/`
 * rtl_airband
 `/etc/rtl_airband.conf`
+* telegram bot
+`/usr/local/src/telegrambot/bot.py`
 
 ### Instructions
+* Configure telegram bot TOKEN and GROUP_ID inside file: /usr/local/src/telegrambot/bot.py
 * By default the spyserver is the service enabled by installation script.
 * Do not run or enable multiple sdr services at same time.
 * Use systemctl to start/stop or enable/disable sdr services.
 * Use calibrate command to ajust ppm error.
 * Use only one usb RTL2832 dongle at time.
-
