@@ -5,9 +5,9 @@ import sys
 import os
 
 # Config
-BOT_TOKEN = 'TELEGRAM-BOT-TOKEN'
+BOT_TOKEN = 'TELEGRAM-BOT-TOKEN-HERE'
 
-GROUP_ID = 'GROUP-ID-TO-SEND-MESSAGES'
+GROUP_ID = 'TELEGRAM-GROUPID-HERE'
 
 recordingspath = '/tmp/recordings/'
 

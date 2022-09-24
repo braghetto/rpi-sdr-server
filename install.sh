@@ -157,6 +157,8 @@ sudo systemctl stop hciuart.service
 sudo systemctl disable hciuart.service
 sudo systemctl stop ModemManager.service
 sudo systemctl disable ModemManager.service
+sudo systemctl stop dphys-swapfile.service
+sudo systemctl disable dphys-swapfile.service
 
 # fix cmdline
 sudo sed -i 's/console=serial0,115200 //g' /boot/cmdline.txt
