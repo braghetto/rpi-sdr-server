@@ -10,8 +10,7 @@ sudo apt -y install git cmake build-essential libtool automake autoconf \
 libvolk2-dev libzstd-dev libglfw3-dev libusb-dev libusb-1.0-0-dev libsoapysdr-dev \
 libairspy-dev libairspyhf-dev libiio-dev libad9361-dev librtaudio-dev libhackrf-dev \
 libfftw3-dev soapysdr-module-all soapysdr-tools soapyremote-server pkg-config \
-libmp3lame-dev libshout3-dev libconfig++-dev libraspberrypi-dev libpulse-dev \
-python3-venv python3-pip
+libmp3lame-dev libshout3-dev libconfig++-dev libraspberrypi-dev libpulse-dev python3-pip
 
 # remove soapyremote systemd unit
 sudo systemctl stop soapyremote-server.service
@@ -120,8 +119,8 @@ sudo cp spyserver.config /etc
 sudo cp rtl_433.conf /etc
 sudo cp rtl_airband.conf /etc
 sudo ln -s /etc/rtl_airband.conf /usr/local/etc/rtl_airband.conf
-sudo mkdir /tmp/recordings/
-sudo chown $USER:$USER /tmp/recordings/
+sudo mkdir /var/recordings/
+sudo chown $USER:$USER /var/recordings/
 mkdir ~/.config/
 mkdir ~/.config/rtl_433/
 ln -s /etc/rtl_433.conf ~/.config/rtl_433/rtl_433.conf
@@ -189,6 +188,7 @@ echo "exit 0" |sudo tee -a /etc/rc.local
 echo "tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
 echo "tmpfs /var/tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
 echo "tmpfs /var/log tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0" |sudo tee -a /etc/fstab
+echo "tmpfs /var/recordings tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0777,size=20M 0 0" |sudo tee -a /etc/fstab
 echo "tmpfs /var/lib/upsd tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=4K 0 0" |sudo tee -a /etc/fstab
 sudo sed -i 's/CONF_SWAPSIZE=100/CONF_SWAPSIZE=0/g' /etc/dphys-swapfile
 sudo swapoff -a

@@ -7,9 +7,9 @@ import os
 # Config
 BOT_TOKEN = 'TELEGRAM-BOT-TOKEN-HERE'
 
-GROUP_ID = 'TELEGRAM-GROUPID-HERE'
+GROUP_ID = 'TELEGRAM-CHATID-HERE'
 
-recordingspath = '/tmp/recordings/'
+recordingspath = '/var/recordings/'
 
 # Air Band Channels Names
 freq = {
