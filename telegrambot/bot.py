@@ -16,7 +16,7 @@ GROUP_ID = 'CHANNEL-CHATID-HERE'
 
 OWNER_ID = 'OWNER-USER-CHATID-HERE'
 
-recordingspath = '/var/opt/'
+recordingspath = '/var/recordings/'
 
 # Air Band Channels Names
 freq = {
