@@ -37,7 +37,7 @@ Do not use until you understand the installation script and make the necessary c
 * spyserver
 * sdrpp server
 * soapyremote server
-* telegram bot (send airband audios)
+* telegram bot
 * rtl_airband
 * rtl_tcp
 * calibration tool
@@ -64,7 +64,7 @@ Do not use until you understand the installation script and make the necessary c
 `/usr/local/src/telegrambot/bot.py`
 
 ### Instructions
-* Configure telegram bot TOKEN and GROUP_ID inside file: /usr/local/src/telegrambot/bot.py
+* Configure telegram bot TOKEN, GROUP_ID and OWNER_ID inside file: /usr/local/src/telegrambot/bot.py
 * By default the spyserver is the service enabled by installation script.
 * Do not run or enable multiple sdr services at same time.
 * Use systemctl to start/stop or enable/disable sdr services.
