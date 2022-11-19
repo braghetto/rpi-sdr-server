@@ -17,7 +17,7 @@ ExecStart=/usr/bin/python3 /usr/local/src/telegrambot/bot.py
 StandardOutput=inherit
 StandardError=inherit
 
-Restart=always
+Restart=on-failure
 
 User=arthur
 

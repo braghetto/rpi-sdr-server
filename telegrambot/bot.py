@@ -127,14 +127,16 @@ def send_restart(message):
     text = 'Restarting system...'
     remove_keyboard = types.ReplyKeyboardRemove(selective=False)
     bot.reply_to(message, text, reply_markup=remove_keyboard)
-    subprocess.call(['sudo', 'shutdown', '-r', 'now'])
+    subprocess.call(['sudo', 'shutdown', '-r', '+1'])
+    signal.signal_raise(signal.SIGTERM)
 
 @bot.message_handler(commands=['shutdown'])
 def send_shutdown(message):
     text = 'Shutting down system...'
     remove_keyboard = types.ReplyKeyboardRemove(selective=False)
     bot.reply_to(message, text, reply_markup=remove_keyboard)
-    subprocess.call(['sudo', 'shutdown', '-h', 'now'])
+    subprocess.call(['sudo', 'shutdown', '-h', '+1'])
+    signal.signal_raise(signal.SIGTERM)
 
 @bot.message_handler(commands=['calibrate'])
 def send_calibrate(message):
