@@ -128,6 +128,7 @@ def send_restart(message):
     remove_keyboard = types.ReplyKeyboardRemove(selective=False)
     bot.reply_to(message, text, reply_markup=remove_keyboard)
     subprocess.call(['sudo', 'shutdown', '-r', '+1'])
+    sleep(5)
     signal.signal_raise(signal.SIGTERM)
 
 @bot.message_handler(commands=['shutdown'])
@@ -136,6 +137,7 @@ def send_shutdown(message):
     remove_keyboard = types.ReplyKeyboardRemove(selective=False)
     bot.reply_to(message, text, reply_markup=remove_keyboard)
     subprocess.call(['sudo', 'shutdown', '-h', '+1'])
+    sleep(5)
     signal.signal_raise(signal.SIGTERM)
 
 @bot.message_handler(commands=['calibrate'])
