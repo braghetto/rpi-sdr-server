@@ -1,4 +1,5 @@
 from telebot.handler_backends import BaseMiddleware, CancelUpdate
+from syslogrelay import SyslogServer
 from telebot import types
 from time import sleep
 import subprocess
@@ -6,7 +7,6 @@ import pyinotify
 import telebot
 import signal
 import psutil
-import sys
 import os
 
 # Config
@@ -52,6 +52,18 @@ def disable_all_sdr_services():
 # Bot instance
 bot = telebot.TeleBot(BOT_TOKEN, parse_mode=None, use_class_middlewares=True)
 
+# Bot owner authentication
+class OwnerMiddleware(BaseMiddleware):
+    def __init__(self):
+        self.update_types = ['message']
+    def pre_process(self, message, data):
+        if message.from_user.id != int(OWNER_ID):
+            return CancelUpdate()
+    def post_process(self, message, data, exception=None):
+        pass
+
+bot.setup_middleware(OwnerMiddleware())
+
 # Send stale audio files
 oldfiles = [os.path.join(recordingspath, f) for f in os.listdir(recordingspath) if os.path.isfile(os.path.join(recordingspath, f))]
 for fpath in oldfiles:
@@ -64,6 +76,10 @@ for fpath in oldfiles:
             print(f'Old Audio {text} sent.')
     finally:
         os.remove(fpath)
+
+# Syslog server for rtl433 messages
+syslogsrv = SyslogServer(bot, OWNER_ID)
+syslogsrv.start()
 
 # File system events handler
 class EventHandler(pyinotify.ProcessEvent):
@@ -82,19 +98,6 @@ mask = pyinotify.IN_CLOSE_WRITE
 notifier = pyinotify.ThreadedNotifier(wm, EventHandler())
 notifier.start()
 wdd = wm.add_watch(recordingspath, mask)
-print('Telegram Bot running...')
-
-# Bot owner authentication
-class OwnerMiddleware(BaseMiddleware):
-    def __init__(self):
-        self.update_types = ['message']
-    def pre_process(self, message, data):
-        if message.from_user.id != int(OWNER_ID):
-            return CancelUpdate()
-    def post_process(self, message, data, exception=None):
-        pass
-
-bot.setup_middleware(OwnerMiddleware())
 
 # Bot commands handlers
 @bot.message_handler(commands=['start', 'help'])
@@ -351,12 +354,12 @@ def service_sdrservers(message):
 
 # Exit signal capture
 def signal_handler(signal, frame):
-    global notifier
     global bot
-    notifier.stop()
+    global syslogsrv
     bot.stop_polling()
-    print('Bye!')
-    sys.exit(0)
+    bot.stop_bot()
+    syslogsrv.stop()
+    syslogsrv.join()
 
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGQUIT, signal_handler)
@@ -365,3 +368,7 @@ signal.signal(signal.SIGTERM, signal_handler)
 
 # Bot start polling
 bot.infinity_polling(interval=1, timeout=60)
+
+# Exit
+notifier.stop()
+print("Bye!")
