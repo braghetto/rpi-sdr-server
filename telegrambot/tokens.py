@@ -1,6 +1,6 @@
 # Config
-BOT_TOKEN = "{{ result_telegram_bot_token['user_input'] }}"
+BOT_TOKEN = "{{ telegram_bot_token }}"
 
-GROUP_ID = "{{ result_telegram_bot_group['user_input'] }}"
+GROUP_ID = "{{ telegram_bot_group }}"
 
-OWNER_ID = "{{ result_telegram_bot_owner['user_input'] }}"
+OWNER_ID = "{{ telegram_bot_owner }}"

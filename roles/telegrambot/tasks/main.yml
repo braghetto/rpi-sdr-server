@@ -1,22 +1,4 @@
 ---
-- name: prompt for bot secrets - token
-  ansible.builtin.pause:
-    prompt: Enter your telegram bot token
-    echo: true
-  register: result_telegram_bot_token
-
-- name: prompt for bot secrets - owner id
-  ansible.builtin.pause:
-    prompt: Enter your telegram bot owner id
-    echo: true
-  register: result_telegram_bot_owner
-
-- name: prompt for bot secrets - group id
-  ansible.builtin.pause:
-    prompt: Enter your telegram bot group id
-    echo: true
-  register: result_telegram_bot_group
-
 - name: make sources directory
   become: true
   ansible.builtin.file:

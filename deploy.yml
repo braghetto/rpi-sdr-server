@@ -22,6 +22,15 @@
       prompt: Enter the target rpi ssh password
       default: "raspberry"
       private: true
+    - name: bot_token
+      prompt: Enter telegram bot token
+      private: false
+    - name: bot_owner
+      prompt: Enter telegram bot owner id
+      private: false
+    - name: bot_group
+      prompt: Enter telegram bot group id
+      private: false
   tasks:
     - name: save host value
       add_host:
@@ -33,6 +42,12 @@
         port: "{{ target_port }}"
         username: "{{ target_user }}"
         password: "{{ target_passwd }}"
+    - name: save bot values
+      add_host:
+        name: telegram
+        token: "{{ bot_token }}"
+        ownerid: "{{ bot_owner }}"
+        groupid: "{{ bot_group }}"
 
 
 - name: deploy rpi sdr server
@@ -41,6 +56,9 @@
     ansible_port: "{{ hostvars['login']['port'] }}"
     ansible_user: "{{ hostvars['login']['username'] }}"
     ansible_password: "{{ hostvars['login']['password'] }}"
+    telegram_bot_token: "{{ hostvars['telegram']['token'] }}"
+    telegram_bot_owner: "{{ hostvars['telegram']['ownerid'] }}"
+    telegram_bot_group: "{{ hostvars['telegram']['groupid'] }}"
   roles:
     - basedeps
     - baseconfs
