@@ -1,0 +1,24 @@
+---
+- name: Get the list of services
+  service_facts:
+
+- name: remove soapy remote service
+  become: true
+  ansible.builtin.systemd:
+    name: soapyremote-server.service
+    state: stopped
+    enabled: false
+    daemon_reload: true
+  when: "'soapyremote-server.service' in services"
+
+- name: remove soapy remote unit link
+  become: true
+  ansible.builtin.file:
+    path: /etc/systemd/system/SoapySDRServer.service
+    state: absent
+
+- name: remove soapy remote unit file
+  become: true
+  ansible.builtin.file:
+    path: /lib/systemd/system/soapyremote-server.service
+    state: absent

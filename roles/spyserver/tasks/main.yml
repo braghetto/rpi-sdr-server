@@ -1,0 +1,56 @@
+---
+- name: make sources directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/spyserver
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: pull sources
+  become: true
+  ansible.builtin.get_url:
+    url: http://airspy.com/downloads/spyserver-arm64.tgz
+    dest: /usr/local/src/spyserver/spyserver-arm64.tgz
+
+- name: unpack sources
+  become: true
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: /usr/local/src/spyserver/spyserver-arm64.tgz
+    dest: /usr/local/src/spyserver
+
+- name: remove archive file
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/spyserver/spyserver-arm64.tgz
+    state: absent
+
+- name: install binary
+  become: true
+  ansible.builtin.file:
+    src: /usr/local/src/spyserver/spyserver
+    dest: /usr/local/bin/spyserver
+    owner: root
+    group: root
+    mode: 0755
+    state: link
+
+- name: install service unit
+  become: true
+  ansible.builtin.template:
+    src: spyserver.service.j2
+    dest: /etc/systemd/system/spyserver.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install config file
+  become: true
+  ansible.builtin.copy:
+    src: spyserver.config
+    dest: /etc/spyserver.config
+    mode: 0755
+    owner: root
+    group: root

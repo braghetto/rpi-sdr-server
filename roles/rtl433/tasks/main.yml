@@ -1,0 +1,51 @@
+---
+- name: pull sources
+  become: true
+  ansible.builtin.git:
+    repo: https://github.com/merbanan/rtl_433.git
+    dest: /usr/local/src/rtl_433
+
+- name: make build directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/rtl_433/build
+    state: directory
+    mode: 0755
+
+- name: configuring sources
+  become: true
+  ansible.builtin.command:
+    cmd: cmake ..
+    chdir: /usr/local/src/rtl_433/build
+
+- name: compile
+  become: true
+  ansible.builtin.shell:
+    cmd: make -j$(nproc)
+    chdir: /usr/local/src/rtl_433/build
+
+- name: install binaries
+  become: true
+  ansible.builtin.shell:
+    cmd: make install
+    chdir: /usr/local/src/rtl_433/build
+
+- name: install config file
+  become: true
+  ansible.builtin.copy:
+    src: rtl_433.conf
+    dest: /etc/rtl_433.conf
+    mode: 0755
+    owner: root
+    group: root
+
+- name: make home config directory
+  ansible.builtin.file:
+    path: '/home/{{ ansible_user }}/.config/rtl_433'
+    state: directory
+
+- name: link home config
+  ansible.builtin.file:
+    src: /etc/rtl_433.conf
+    dest: '/home/{{ ansible_user }}/.config/rtl_433/rtl_433.conf'
+    state: link

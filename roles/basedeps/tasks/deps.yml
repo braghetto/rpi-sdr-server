@@ -1,0 +1,35 @@
+---
+- name: install dependencies packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    pkg:
+      - git
+      - cmake
+      - build-essential
+      - libtool
+      - automake
+      - autoconf
+      - libvolk2-dev
+      - libzstd-dev
+      - libglfw3-dev
+      - libusb-dev
+      - libusb-1.0-0-dev
+      - libsoapysdr-dev
+      - libairspy-dev
+      - libairspyhf-dev
+      - libiio-dev
+      - libad9361-dev
+      - librtaudio-dev
+      - libhackrf-dev
+      - libfftw3-dev
+      - soapysdr-module-all
+      - soapysdr-tools
+      - soapyremote-server
+      - pkg-config
+      - libmp3lame-dev
+      - libshout3-dev
+      - libconfig++-dev
+      - libraspberrypi-dev
+      - libpulse-dev
+      - python3-pip

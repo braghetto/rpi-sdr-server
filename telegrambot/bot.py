@@ -1,6 +1,8 @@
 from telebot.handler_backends import BaseMiddleware, CancelUpdate
+from .secrets import BOT_TOKEN, GROUP_ID, OWNER_ID
 from syslogrelay import SyslogServer
 from telebot import types
+from airband import freq
 from time import sleep
 import subprocess
 import pyinotify
@@ -9,28 +11,9 @@ import signal
 import psutil
 import os
 
-# Config
-BOT_TOKEN = 'BOT-TOKEN-HERE'
-
-GROUP_ID = 'CHANNEL-CHATID-HERE'
-
-OWNER_ID = 'OWNER-USER-CHATID-HERE'
 
 recordingspath = '/var/recordings/'
 
-# Air Band Channels Names
-freq = {
-    '118000000': 'TWR SBRP 118.00MHz',
-    '119550000': 'APP ACADEMIA 119.55MHz',
-    '119750000': 'APP ACADEMIA 119.75MHz',
-    '120100000': 'APP ACADEMIA 120.10MHz',
-    '121500000': 'AIR DISTRESS 121.50MHz',
-    '122400000': 'APP ACADEMIA 122.40MHz',
-    '122750000': 'AIR TO AIR 122.75MHz',
-    '122800000': 'APP ACADEMIA 122.80MHz',
-    '123025000': 'AIR TO AIR HELI 123.025MHz',
-    '123450000': 'AIR TO AIR 123.45MHz',
-}
 
 # SDR Services disable and stop helper functions
 def stop_all_sdr_services():
@@ -38,7 +21,6 @@ def stop_all_sdr_services():
     subprocess.call(['sudo', 'systemctl', 'stop', 'soapyserver.service'])
     subprocess.call(['sudo', 'systemctl', 'stop', 'rtlairband.service'])
     subprocess.call(['sudo', 'systemctl', 'stop', 'rtltcp.service'])
-    subprocess.call(['sudo', 'systemctl', 'stop', 'sdrpp.service'])
     return None
 
 def disable_all_sdr_services():
@@ -46,8 +28,8 @@ def disable_all_sdr_services():
     subprocess.call(['sudo', 'systemctl', 'disable', 'soapyserver.service'])
     subprocess.call(['sudo', 'systemctl', 'disable', 'rtlairband.service'])
     subprocess.call(['sudo', 'systemctl', 'disable', 'rtltcp.service'])
-    subprocess.call(['sudo', 'systemctl', 'disable', 'sdrpp.service'])
     return None
+
 
 # Bot instance
 bot = telebot.TeleBot(BOT_TOKEN, parse_mode=None, use_class_middlewares=True)
@@ -64,6 +46,7 @@ class OwnerMiddleware(BaseMiddleware):
 
 bot.setup_middleware(OwnerMiddleware())
 
+
 # Send stale audio files
 oldfiles = [os.path.join(recordingspath, f) for f in os.listdir(recordingspath) if os.path.isfile(os.path.join(recordingspath, f))]
 for fpath in oldfiles:
@@ -77,9 +60,11 @@ for fpath in oldfiles:
     finally:
         os.remove(fpath)
 
+
 # Syslog server for rtl433 messages
 syslogsrv = SyslogServer(bot, OWNER_ID)
 syslogsrv.start()
+
 
 # File system events handler
 class EventHandler(pyinotify.ProcessEvent):
@@ -98,6 +83,7 @@ mask = pyinotify.IN_CLOSE_WRITE
 notifier = pyinotify.ThreadedNotifier(wm, EventHandler())
 notifier.start()
 wdd = wm.add_watch(recordingspath, mask)
+
 
 # Bot commands handlers
 @bot.message_handler(commands=['start', 'help'])
@@ -173,8 +159,7 @@ def send_info(message):
         'soapyserver.service',
         'telegrambot.service',
         'rtlairband.service',
-        'rtltcp.service',
-        'sdrpp.service'
+        'rtltcp.service'
     ]
     enableds = []
     actives = []
@@ -352,6 +337,7 @@ def service_sdrservers(message):
     service_keyboard.add(btn_cancel)
     bot.reply_to(message, text, reply_markup=service_keyboard)
 
+
 # Exit signal capture
 def signal_handler(signal, frame):
     global bot
@@ -365,6 +351,7 @@ signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGQUIT, signal_handler)
 signal.signal(signal.SIGABRT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
+
 
 # Bot start polling
 bot.infinity_polling(interval=1, timeout=60)

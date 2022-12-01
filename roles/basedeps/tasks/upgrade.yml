@@ -1,0 +1,6 @@
+---
+- name: upgrade all os packages
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: full

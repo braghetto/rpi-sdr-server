@@ -1,0 +1,88 @@
+---
+- name: make sources directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/airband
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+
+- name: pull sources
+  become: true
+  ansible.builtin.get_url:
+    url: https://github.com/szpajder/RTLSDR-Airband/archive/refs/tags/v4.0.2.tar.gz
+    dest: /usr/local/src/airband/airband.tar.gz
+
+- name: unpack sources
+  become: true
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: /usr/local/src/airband/airband.tar.gz
+    dest: /usr/local/src/airband
+    extra_opts: [--strip-components=1]
+
+- name: remove archive file
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/airband/airband.tar.gz
+    state: absent
+
+- name: make build directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/airband/build
+    state: directory
+    mode: 0755
+
+- name: configuring sources
+  become: true
+  ansible.builtin.command:
+    cmd: cmake -DPLATFORM=native -DNFM=ON -DPULSEAUDIO=ON -DRTLSDR=ON ../
+    chdir: /usr/local/src/airband/build
+
+- name: compile
+  become: true
+  ansible.builtin.shell:
+    cmd: make -j$(nproc)
+    chdir: /usr/local/src/airband/build
+
+- name: install binaries
+  become: true
+  ansible.builtin.shell:
+    cmd: make install
+    chdir: /usr/local/src/airband/build
+
+- name: make recordings directory
+  become: true
+  ansible.builtin.file:
+    path: /var/recordings
+    state: directory
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+    mode: 0777
+
+- name: install service unit
+  become: true
+  ansible.builtin.template:
+    src: rtlairband.service.j2
+    dest: /etc/systemd/system/rtlairband.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: install config file
+  become: true
+  ansible.builtin.copy:
+    src: rtl_airband.conf
+    dest: /etc/rtl_airband.conf
+    mode: 0755
+    owner: root
+    group: root
+
+- name: link config file
+  become: true
+  ansible.builtin.file:
+    src: /etc/rtl_airband.conf
+    dest: /usr/local/etc/rtl_airband.conf
+    state: link

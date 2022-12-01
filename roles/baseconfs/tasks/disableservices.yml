@@ -1,0 +1,49 @@
+---
+- name: disable triggerhappy service
+  become: true
+  ansible.builtin.systemd:
+    name: triggerhappy.service
+    state: stopped
+    enabled: false
+
+- name: disable triggerhappy socket
+  become: true
+  ansible.builtin.systemd:
+    name: triggerhappy.socket
+    state: stopped
+    enabled: false
+
+- name: disable polkit service
+  become: true
+  ansible.builtin.systemd:
+    name: polkit.service
+    state: stopped
+    enabled: false
+
+- name: disable bluetooth service
+  become: true
+  ansible.builtin.systemd:
+    name: bluetooth.service
+    state: stopped
+    enabled: false
+
+- name: disable hciuart service
+  become: true
+  ansible.builtin.systemd:
+    name: hciuart.service
+    state: stopped
+    enabled: false
+
+- name: disable modem manager service
+  become: true
+  ansible.builtin.systemd:
+    name: ModemManager.service
+    state: stopped
+    enabled: false
+
+- name: disable swap service
+  become: true
+  ansible.builtin.systemd:
+    name: dphys-swapfile.service
+    state: stopped
+    enabled: false

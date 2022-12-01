@@ -1,0 +1,9 @@
+---
+- include_tasks: removesoapyremote.yml
+- include_tasks: modprobeblacklist.yml
+- include_tasks: disableservices.yml
+- include_tasks: cmdlinefix.yml
+- include_tasks: bootconfig.yml
+- include_tasks: cpugovernor.yml
+- include_tasks: tmpfs.yml
+- include_tasks: swapoff.yml

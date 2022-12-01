@@ -1,0 +1,13 @@
+---
+- name: remove original rtl modprobe blacklist file
+  become: true
+  ansible.builtin.file:
+    path: /etc/modprobe.d/blacklist-rtl8xxxu.conf
+    state: absent
+
+- name: copy custom rtl modprobe blacklist file
+  become: true
+  ansible.builtin.copy:
+    src: blacklist-rtlsdr.conf
+    dest: /etc/modprobe.d/blacklist-rtlsdr.conf
+    mode: 0644

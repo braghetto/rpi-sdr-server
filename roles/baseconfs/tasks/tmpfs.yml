@@ -1,0 +1,12 @@
+---
+- name: tmpfs mounts to avoid writing to sdcard
+  become: true
+  ansible.builtin.blockinfile:
+    path: /etc/fstab
+    insertafter: 'EOF'
+    block: |
+      tmpfs /tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0
+      tmpfs /var/tmp tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0
+      tmpfs /var/log tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=20M 0 0
+      tmpfs /var/recordings tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0777,size=20M 0 0
+      tmpfs /var/lib/upsd tmpfs defaults,noatime,nosuid,nodev,noexec,mode=0755,size=4K 0 0

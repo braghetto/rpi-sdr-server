@@ -1,0 +1,28 @@
+---
+- name: pull sources
+  become: true
+  ansible.builtin.git:
+    repo: https://github.com/steve-m/kalibrate-rtl
+    dest: /usr/local/src/kalibrate-rtl
+
+- name: configuring sources
+  become: true
+  ansible.builtin.shell:
+    cmd: ./bootstrap && ./configure
+    chdir: /usr/local/src/kalibrate-rtl
+  environment:
+    CXXFLAGS: '-W -Wall -O3'
+
+- name: compile
+  become: true
+  ansible.builtin.shell:
+    cmd: make -j$(nproc)
+    chdir: /usr/local/src/kalibrate-rtl
+  environment:
+    CXXFLAGS: '-W -Wall -O3'
+
+- name: install binaries
+  become: true
+  ansible.builtin.shell:
+    cmd: make install
+    chdir: /usr/local/src/kalibrate-rtl

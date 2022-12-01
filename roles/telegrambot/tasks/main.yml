@@ -1,0 +1,71 @@
+---
+- name: prompt for bot secrets - token
+  ansible.builtin.pause:
+    prompt: Enter your telegram bot token
+    echo: true
+  register: result_telegram_bot_token
+
+- name: prompt for bot secrets - owner id
+  ansible.builtin.pause:
+    prompt: Enter your telegram bot owner id
+    echo: true
+  register: result_telegram_bot_owner
+
+- name: prompt for bot secrets - group id
+  ansible.builtin.pause:
+    prompt: Enter your telegram bot group id
+    echo: true
+  register: result_telegram_bot_group
+
+- name: make sources directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/telegrambot
+    state: directory
+    mode: 0700
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+
+- name: copy source files
+  become: true
+  ansible.builtin.copy:
+    src: '{{ item }}'
+    dest: /usr/local/src/telegrambot
+    mode: 0700
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+  with_items:
+    - requirements.txt
+    - syslogrelay.py
+    - airband.py
+    - bot.py
+
+- name: install requirements
+  become: true
+  ansible.builtin.pip:
+    requirements: /usr/local/src/telegrambot/requirements.txt
+
+- name: set bot secrets
+  become: true
+  ansible.builtin.template:
+    src: secrets.py.j2
+    dest: /usr/local/src/telegrambot/secrets.py
+    mode: 0700
+    owner: '{{ ansible_user }}'
+    group: '{{ ansible_user }}'
+
+- name: install service unit
+  become: true
+  ansible.builtin.template:
+    src: telegrambot.service.j2
+    dest: /etc/systemd/system/telegrambot.service
+    owner: root
+    group: root
+    mode: 0644
+
+- name: enable bot service
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    name: telegrambot.service
+    enabled: true

@@ -1,0 +1,40 @@
+---
+- name: pull sources
+  become: true
+  ansible.builtin.git:
+    repo: https://gitea.osmocom.org/sdr/rtl-sdr.git
+    dest: /usr/local/src/rtl-sdr
+
+- name: make build directory
+  become: true
+  ansible.builtin.file:
+    path: /usr/local/src/rtl-sdr/build
+    state: directory
+    mode: 0755
+
+- name: configuring sources
+  become: true
+  ansible.builtin.command:
+    cmd: cmake ../ -DINSTALL_UDEV_RULES=ON -DDETACH_KERNEL_DRIVER=ON -DENABLE_ZEROCOPY=ON
+    chdir: /usr/local/src/rtl-sdr/build
+
+- name: compile
+  become: true
+  ansible.builtin.shell:
+    cmd: make -j$(nproc)
+    chdir: /usr/local/src/rtl-sdr/build
+
+- name: install binaries
+  become: true
+  ansible.builtin.shell:
+    cmd: make install && ldconfig
+    chdir: /usr/local/src/rtl-sdr/build
+
+- name: install service unit
+  become: true
+  ansible.builtin.template:
+    src: rtltcp.service.j2
+    dest: /etc/systemd/system/rtltcp.service
+    owner: root
+    group: root
+    mode: 0644

@@ -1,26 +1,27 @@
 [Unit]
 
-Description=Rtl Airband Server
+Description=Telegram Bot
 
 Wants=network-online.target
 After=network-online.target
 
 [Service]
 
-Nice=-1
+Nice=1
 #IOSchedulingClass=best-effort
 #IOSchedulingPriority=0
 
 ExecStartPre=/bin/sleep 5
-ExecStart=/usr/local/bin/rtl_airband -F -c /etc/rtl_airband.conf
+ExecStart=/usr/bin/python3 /usr/local/src/telegrambot/bot.py
 
 StandardOutput=inherit
 StandardError=inherit
 
-Restart=always
+Restart=on-failure
 
-User=arthur
+User={{ ansible_user }}
 
 [Install]
 
 WantedBy=multi-user.target
+

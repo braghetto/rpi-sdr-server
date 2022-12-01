@@ -4,7 +4,6 @@ import socket
 import json
 
 
-
 class SyslogServer(Thread):
     def __init__(self, bot, oid):
         super(SyslogServer, self).__init__()

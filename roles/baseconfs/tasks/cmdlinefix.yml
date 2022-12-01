@@ -1,0 +1,7 @@
+---
+- name: cmdline remove serial console and fiqfix
+  become: true
+  ansible.builtin.replace:
+    path: /boot/cmdline.txt
+    regexp: 'console=serial0,115200'
+    replace: 'dwc_otg.fiq_fix_enable=0'

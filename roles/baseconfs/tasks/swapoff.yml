@@ -1,0 +1,12 @@
+---
+- name: disable swap dphys
+  become: true
+  ansible.builtin.lineinfile:
+    path: /etc/dphys-swapfile
+    regexp: '^CONF_SWAPSIZE='
+    line: CONF_SWAPSIZE=0
+
+- name: disable swap
+  become: true
+  ansible.builtin.command:
+    cmd: swapoff -a
