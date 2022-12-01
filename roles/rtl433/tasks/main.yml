@@ -49,3 +49,12 @@
     src: /etc/rtl_433.conf
     dest: '/home/{{ ansible_user }}/.config/rtl_433/rtl_433.conf'
     state: link
+
+- name: install service unit
+  become: true
+  ansible.builtin.template:
+    src: rtl433.service.j2
+    dest: /etc/systemd/system/rtl433.service
+    owner: root
+    group: root
+    mode: 0644

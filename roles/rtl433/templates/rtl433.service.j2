@@ -1,0 +1,26 @@
+[Unit]
+
+Description=Rtl 433 Scanner
+
+Wants=network-online.target
+After=telegrambot.service
+
+[Service]
+
+Nice=-1
+#IOSchedulingClass=best-effort
+#IOSchedulingPriority=0
+
+ExecStartPre=/bin/sleep 5
+ExecStart=/usr/local/bin/rtl_433
+
+StandardOutput=inherit
+StandardError=inherit
+
+Restart=always
+
+User={{ ansible_user }}
+
+[Install]
+
+WantedBy=multi-user.target
