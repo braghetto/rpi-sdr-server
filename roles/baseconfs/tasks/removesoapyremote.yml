@@ -22,3 +22,12 @@
   ansible.builtin.file:
     path: /lib/systemd/system/soapyremote-server.service
     state: absent
+
+- name: install custom soapy service unit
+  become: true
+  ansible.builtin.copy:
+    src: soapyserver.service
+    dest: /etc/systemd/system/soapyserver.service
+    owner: root
+    group: root
+    mode: 0644
