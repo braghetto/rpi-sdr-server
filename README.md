@@ -61,7 +61,7 @@ The deploy playbook will configure a fresh raspios instalation to serve as a sdr
 `/usr/local/src/telegrambot/bot.py`
 
 ### Instructions
-* Its possible to change telegram bot TOKEN, GROUP_ID and OWNER_ID inside file: /usr/local/src/telegrambot/secrets.py
+* Its possible to change telegram bot TOKEN, GROUP_ID and OWNER_ID inside file: /usr/local/src/telegrambot/tokens.py
 * If you want to change the airband channels you can change their names in: /usr/local/src/telegrambot/airband.py
 * The telegrambot service is enabled by default.
 * Do not run or enable multiple sdr services at same time.

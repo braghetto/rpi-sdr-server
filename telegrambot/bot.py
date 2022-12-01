@@ -1,5 +1,5 @@
 from telebot.handler_backends import BaseMiddleware, CancelUpdate
-from .secrets import BOT_TOKEN, GROUP_ID, OWNER_ID
+from tokens import BOT_TOKEN, GROUP_ID, OWNER_ID
 from syslogrelay import SyslogServer
 from telebot import types
 from airband import freq

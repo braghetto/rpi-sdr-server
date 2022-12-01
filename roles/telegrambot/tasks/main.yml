@@ -48,8 +48,8 @@
 - name: set bot secrets
   become: true
   ansible.builtin.template:
-    src: secrets.py.j2
-    dest: /usr/local/src/telegrambot/secrets.py
+    src: tokens.py.j2
+    dest: /usr/local/src/telegrambot/tokens.py
     mode: 0700
     owner: '{{ ansible_user }}'
     group: '{{ ansible_user }}'
