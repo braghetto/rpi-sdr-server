@@ -7,19 +7,19 @@
   gather_facts: false
   vars_prompt:
     - name: target_host
-      prompt: Enter the target rpi ip address
+      prompt: Enter target rpi ip address
       default: "172.17.0.2"
       private: false
     - name: target_port
-      prompt: Enter the target rpi ssh port
+      prompt: Enter target rpi ssh port
       default: "22"
       private: false
     - name: target_user
-      prompt: Enter the target rpi ssh user
+      prompt: Enter target rpi ssh user
       default: "pi"
       private: false
     - name: target_passwd
-      prompt: Enter the target rpi ssh password
+      prompt: Enter target rpi ssh password
       default: "raspberry"
       private: true
     - name: bot_token
@@ -69,3 +69,7 @@
     - spyserver
     - rtl433
     - airband
+  post_tasks:
+    - name: Done! Rebooting...
+      become: true
+      reboot:

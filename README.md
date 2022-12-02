@@ -49,6 +49,7 @@ The deploy playbook will configure a fresh raspios instalation to serve as a sdr
 * telegrambot.service
 * rtlairband.service
 * rtltcp.service
+* rtl433.service
 
 ### Configuration files
 * spyserver
