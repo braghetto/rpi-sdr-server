@@ -16,12 +16,12 @@ The deploy playbook will configure a fresh raspios instalation to serve as a sdr
 * RTL2832 usb hardware
 
 ### Install
-* Build a raspberry pi os sdcard
-* You can easily build a sdcard using rpi-imager tool
-* Connect rpi wifi/ethernet to internet
-* Have ssh access to rpi with sudo powers
+* Build a raspberry pi os sdcard.
+* You can easily build a sdcard using rpi-imager tool.
+* Connect rpi wifi/ethernet to internet.
+* Have ssh access to rpi with sudo powers.
 * You will need to have ansible installed (in your pc, not in rpi host):
-* [Ansible Instalation Docs](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
+* [Ansible Instalation Docs.](https://docs.ansible.com/ansible/latest/installation_guide/index.html)
 * Clone this repository:
 * `git clone https://github.com/braghetto/rpi-sdr-server.git`
 * Change to repo directory:
@@ -30,7 +30,8 @@ The deploy playbook will configure a fresh raspios instalation to serve as a sdr
 * `ansible-playbook deploy.yml`
 * You be prompted for rpi ip address, ssh port, ssh username, ssh password, telegram bot token, bot owner id and bot group id.
 * Grab a beer and wait, we'll be compiling a lot of stuff using rpi hardware...
-* Reboot rpi
+* Wait for rpi reboot.
+
 
 ## Use
 
