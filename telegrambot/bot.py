@@ -21,6 +21,7 @@ def stop_all_sdr_services():
     subprocess.call(['sudo', 'systemctl', 'stop', 'soapyserver.service'])
     subprocess.call(['sudo', 'systemctl', 'stop', 'rtlairband.service'])
     subprocess.call(['sudo', 'systemctl', 'stop', 'rtltcp.service'])
+    subprocess.call(['sudo', 'systemctl', 'stop', 'rtl433.service'])
     return None
 
 def disable_all_sdr_services():
@@ -28,6 +29,7 @@ def disable_all_sdr_services():
     subprocess.call(['sudo', 'systemctl', 'disable', 'soapyserver.service'])
     subprocess.call(['sudo', 'systemctl', 'disable', 'rtlairband.service'])
     subprocess.call(['sudo', 'systemctl', 'disable', 'rtltcp.service'])
+    subprocess.call(['sudo', 'systemctl', 'disable', 'rtl433.service'])
     return None
 
 
@@ -159,7 +161,8 @@ def send_info(message):
         'soapyserver.service',
         'telegrambot.service',
         'rtlairband.service',
-        'rtltcp.service'
+        'rtltcp.service',
+        'rtl433.service'
     ]
     enableds = []
     actives = []
@@ -207,12 +210,12 @@ def send_services(message):
     services_keyboard = types.ReplyKeyboardMarkup()
     btn_telegrambot = types.KeyboardButton('/telegrambot')
     btn_spyserver = types.KeyboardButton('/spyserver')
-    btn_sdrppserver = types.KeyboardButton('/sdrppserver')
+    btn_rtl433 = types.KeyboardButton('/rtl433')
     btn_soapyserver = types.KeyboardButton('/soapyserver')
     btn_airbandserver = types.KeyboardButton('/airbandserver')
     btn_tcpserver = types.KeyboardButton('/tcpserver')
     btn_cancel = types.KeyboardButton('/cancel')
-    services_keyboard.add(btn_airbandserver, btn_sdrppserver)
+    services_keyboard.add(btn_airbandserver, btn_rtl433)
     services_keyboard.add(btn_soapyserver, btn_spyserver)
     services_keyboard.add(btn_tcpserver, btn_telegrambot)
     services_keyboard.add(btn_cancel)
@@ -269,16 +272,16 @@ def service_telegrambot(message):
     bot.reply_to(message, text, reply_markup=service_keyboard)
 
 # Bot services handle - sdr servers
-@bot.message_handler(commands=['spyserver', 'sdrppserver', 'soapyserver', 'airbandserver', 'tcpserver'])
+@bot.message_handler(commands=['spyserver', 'rtl433', 'soapyserver', 'airbandserver', 'tcpserver'])
 def service_sdrservers(message):
     if message.text.lower().strip().startswith('/spyserver'):
         text = 'Spyserver Service:'
         unitname = 'spyserver.service'
         cmdname = '/spyserver'
-    elif message.text.lower().strip().startswith('/sdrppserver'):
-        text = 'SDRppServer Service:'
-        unitname = 'sdrpp.service'
-        cmdname = '/sdrppserver'
+    elif message.text.lower().strip().startswith('/rtl433'):
+        text = 'Rtl433 Service:'
+        unitname = 'rtl433.service'
+        cmdname = '/rtl433'
     elif message.text.lower().strip().startswith('/soapyserver'):
         text = 'SoapyServer Service:'
         unitname = 'soapyserver.service'
