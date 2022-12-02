@@ -28,8 +28,8 @@ esac
 sudo systemctl stop spyserver.service
 sudo systemctl stop rtltcp.service
 sudo systemctl stop rtlairband.service
-sudo systemctl stop sdrpp.service
 sudo systemctl stop soapyserver.service
+sudo systemctl stop rtl433.service
 
 # float ppm value
 PPM=$(/usr/local/bin/kal -g $GAIN -b $BAND -c $CHAN -e $IERR |grep "average absolute error:" |awk '{print $4}')
@@ -67,9 +67,9 @@ then
 sudo systemctl start rtlairband.service
 fi
 
-if [ "$(sudo systemctl is-enabled sdrpp.service)" = "enabled" ]
+if [ "$(sudo systemctl is-enabled rtl433.service)" = "enabled" ]
 then
-sudo systemctl start sdrpp.service
+sudo systemctl start rtl433.service
 fi
 
 if [ "$(sudo systemctl is-enabled soapyserver.service)" = "enabled" ]
