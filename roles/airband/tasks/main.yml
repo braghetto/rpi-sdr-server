@@ -11,7 +11,7 @@
 - name: pull sources
   become: true
   ansible.builtin.get_url:
-    url: https://github.com/szpajder/RTLSDR-Airband/archive/refs/tags/v4.0.2.tar.gz
+    url: https://github.com/charlie-foxtrot/RTLSDR-Airband/archive/refs/tags/v4.1.1.tar.gz
     dest: /usr/local/src/airband/airband.tar.gz
 
 - name: unpack sources
